@@ -1,0 +1,160 @@
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
+nnoremap <space> za
+let g:SimpylFold_docstring_preview=1
+
+autocmd FileType python map <buffer> <F9> :w !python3 <CR>
+autocmd FileType python imap <buffer> <F9> <esc>:w !python3 <CR>
+
+
+set clipboard=unnamedplus
+set expandtab "Replace tab with spaces
+set tabstop=4 "Number of columns that one tab character is displayed as
+set shiftwidth=4 "Number of columns that one autoindentation take up
+set softtabstop=0 "Number of spaces that a tab character counts for when performing editing operations
+set timeoutlen=500
+"set cursorline
+set hlsearch
+set autoindent
+"set termguicolors
+set hidden
+let mapleader = "\<space>"
+nnoremap <silent> <leader>n :set nu! rnu!<CR>
+nnoremap <leader>t :set expandtab!<CR>
+nnoremap <silent> <leader>s :set spell!<CR>
+highlight clear SpellBad
+highlight clear SpellCap
+highlight clear SpellLocal
+highlight clear SpellRare
+
+nnoremap <leader>f :w<CR>
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+highlight SpellBad cterm=underline ctermfg=red ctermbg=none
+highlight SpellCap cterm=underline ctermfg=red ctermbg=none
+highlight SpellLocal cterm=underline ctermfg=red ctermbg=none
+highlight SpellRare cterm=underline ctermfg=red ctermbg=none
+
+nnoremap j gj
+nnoremap k gk
+set linebreak
+set number
+set relativenumber
+call plug#begin()
+Plug 'lervag/vimtex'
+Plug 'sirver/ultisnips'
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'} 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'   
+Plug 'blindFS/vim-taskwarrior'
+Plug 'tmhedberg/SimpylFold'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'nvie/vim-flake8'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+packadd YouCompleteMe
+
+" Accept completion with Enter when pum visible; otherwise newline
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" Navigate completion with Tab / Shift-Tab
+" inoremap <silent><expr> <Tab>   coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+" inoremap <silent><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+
+
+set runtimepath+=~/.vim/vim-taskwarrior
+
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_compiler_method = 'latexmk'
+let g:vimtex_quickfix_mode=0
+" let g:tex_conceal_frac=2
+set conceallevel=2
+let g:tex_conceal='abdmg'
+
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+"Spell check and correct
+setlocal spell
+set spelllang=en_gb
+set hidden
+inoremap <C-l> <C-g>u<C-o>[s<C-o>1z=<C-g>u<C-o>$ 
+nnoremap <C-l> i<C-g>u<Esc>[s1z=i<C-g>u<Esc>$
+noremap gb :ls<CR>:b<space>
+
+autocmd InsertLeave * silent write
+autocmd BufNewFile,BufRead,BufWrite *.tex hi Conceal ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
+
+inoremap <Esc> <Esc>:w<CR>
+
+let g:word_count=wordcount().words
+function WordCount()
+    if has_key(wordcount(),'visual_words')
+        let g:word_count=wordcount().visual_words."/".wordcount().words " count selected words
+    else
+        let g:word_count=wordcount().cursor_words."/".wordcount().words " or shows words 'so far'
+    endif
+    return g:word_count
+endfunction
+
+"let g:airline_section_x = airline#section#create(['%{WordCount()}'])
+let g:airline_section_y = '%2p%%'
+let g:airline_section_z = '%{WordCount()}'
+
+let g:airline_theme='simple'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+" air-line
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#enabled = 0
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+"let g:airline_left_sep = '»'
+"let g:airline_left_sep = '▶'
+"let g:airline_right_sep = '«'
+"let g:airline_right_sep = '◀'
+"let g:airline_symbols.linenr = '␊'
+"let g:airline_symbols.linenr = '␤'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+set encoding=utf-8
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+
+
+
+
+
+
