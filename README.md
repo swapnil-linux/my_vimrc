@@ -7,6 +7,8 @@ Features include:
 * File tree (`NERDTree`) + icons
 * LSP/Autocomplete via `coc.nvim` (with Ansible, YAML, Python, JSON, snippets)
 * Fuzzy finding with `fzf` (optional: `ripgrep`)
+* Statusline with powerline symbols (`vim-airline`)
+* Keymap discovery via `vim-which-key` (`<Space>?`)
 * Handy motions and quality-of-life mappings
 
 > **Leader key**: Space (`<Space>`)
@@ -152,7 +154,7 @@ set undodir=~/.vim/undo
 set number
 set termguicolors
 set scrolloff=5 sidescrolloff=5
-set nowrap linebreak
+set nowrap
 set cursorline
 set timeoutlen=400
 
@@ -258,7 +260,10 @@ nmap [d <Plug>(coc-diagnostic-prev)
 nmap ]d <Plug>(coc-diagnostic-next)
 
 " Highlight symbol under cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup coc_highlight
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 
 " =========================
 " Yank highlight (Neovim only)
@@ -292,10 +297,6 @@ let g:airline#extensions#whitespace#enabled = 0
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-
-
-" airline tabline enable
-let g:airline#extensions#tabline#enabled = 1
 
 " airline symbols
 let g:airline_symbols.whitespace = 'Ξ'
@@ -381,6 +382,10 @@ let g:coc_global_extensions = [
 
 * Jump to tab **1–9**: `<Space>1` … `<Space>9`
 * Next/Prev tab: `<Space>]` / `<Space>[`
+
+### WhichKey
+
+* Show all `<Space>` bindings: `<Space>?`
 
 ### FZF (fuzzy finding)
 

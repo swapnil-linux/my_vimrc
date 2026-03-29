@@ -64,7 +64,7 @@ set undodir=~/.vim/undo
 set number
 set termguicolors
 set scrolloff=5 sidescrolloff=5
-set nowrap linebreak
+set nowrap
 set cursorline
 set timeoutlen=400
 
@@ -170,7 +170,10 @@ nmap [d <Plug>(coc-diagnostic-prev)
 nmap ]d <Plug>(coc-diagnostic-next)
 
 " Highlight symbol under cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup coc_highlight
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 
 " =========================
 " Yank highlight (Neovim only)
@@ -204,10 +207,6 @@ let g:airline#extensions#whitespace#enabled = 0
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-
-
-" airline tabline enable
-let g:airline#extensions#tabline#enabled = 1
 
 " airline symbols
 let g:airline_symbols.whitespace = 'Ξ'
